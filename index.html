@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hieronymus - Full Stack Developer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Outfit:wght@300;400;600;700&display=swap');
+
+        :root {
+            --primary: #1a1315;
+            --secondary: #2d1f24;
+            --accent: #a64253;
+            --accent-alt: #d4474a;
+            --text: #e8e0dc;
+            --text-dim: #a89898;
+            --border: #3d2a2f;
+            --green: #27ae60;
+            --red: #c0392b;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: linear-gradient(135deg, var(--primary) 0%, #251a1e 100%);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-attachment: fixed;
+        }
+
+        /* ===== NAVBAR ===== */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(26, 19, 21, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
+            padding: 1.2rem 2rem;
+        }
+
+        nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            font-family: 'Space Mono', monospace;
+            background: linear-gradient(90deg, var(--accent), var(--accent-alt));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 2px;
+            text-decoration: none;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: var(--text-dim);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        nav a:hover {
+            color: var(--accent);
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 60px;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(166, 66, 83, 0.15) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -10%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(212, 71, 74, 0.12) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: float 25s ease-in-out infinite reverse;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(30px); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            max-width: 800px;
+            animation: slideUp 0.8s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+            font-family: 'Space Mono', monospace;
+            letter-spacing: -1px;
+        }
+
+        .hero .highlight {
+            background: linear-gradient(90deg, var(--accent), var(--accent-alt));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            color: var(--text-dim);
+            margin-bottom: 2rem;
+            font-weight: 300;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: linear-gradient(90deg, var(--accent), var(--accent-alt));
+            color: var(--text);
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            cursor: pointer;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(166, 66, 83, 0.4);
+        }
+
+        /* ===== SECTION STYLING ===== */
+        section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 5rem 2rem;
+        }
+
+        section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-family: 'Space Mono', monospace;
+            letter-spacing: 1px;
+        }
+
+        section .section-subtitle {
+            color: var(--accent);
+            font-size: 0.9rem;
+            font-family: 'Space Mono', monospace;
+            margin-bottom: 2rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* ===== PROJECTS ===== */
+        .projects {
+            background: linear-gradient(135deg, rgba(45, 31, 36, 0.5) 0%, rgba(61, 42, 47, 0.5) 100%);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .project-card {
+            background: var(--secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .project-card.featured {
+            grid-column: span 1;
+            border: 2px solid var(--accent);
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent), var(--accent-alt));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+
+        .project-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(166, 66, 83, 0.2);
+        }
+
+        .project-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .project-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .project-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.8rem;
+            font-family: 'Space Mono', monospace;
+        }
+
+        .project-card p {
+            color: var(--text-dim);
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+
+        .project-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .tech-tag {
+            background: rgba(166, 66, 83, 0.15);
+            color: var(--accent);
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            border: 1px solid rgba(166, 66, 83, 0.3);
+        }
+
+        .project-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .project-link {
+            flex: 1;
+            padding: 0.7rem 1rem;
+            border: 1px solid var(--border);
+            text-align: center;
+            border-radius: 6px;
+            text-decoration: none;
+            color: var(--accent);
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .project-link:hover {
+            background: rgba(166, 66, 83, 0.15);
+            border-color: var(--accent);
+        }
+
+        /* ===== SKILLS ===== */
+        .skills {
+            background: linear-gradient(135deg, rgba(25, 18, 20, 0.5) 0%, rgba(45, 31, 36, 0.5) 100%);
+        }
+
+        .skills-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .skill-group {
+            background: var(--secondary);
+            border: 1px solid var(--border);
+            padding: 2rem;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .skill-group:hover {
+            border-color: var(--accent);
+            box-shadow: 0 10px 30px rgba(166, 66, 83, 0.15);
+        }
+
+        .skill-group h3 {
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            font-family: 'Space Mono', monospace;
+        }
+
+        .skill-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+
+        .skill {
+            background: rgba(166, 66, 83, 0.1);
+            border: 1px solid rgba(166, 66, 83, 0.25);
+            padding: 0.6rem 1rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+
+        /* ===== ABOUT ===== */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+            margin-top: 3rem;
+        }
+
+        .about-text p {
+            margin-bottom: 1.5rem;
+            color: var(--text-dim);
+            line-height: 1.8;
+        }
+
+        .about-text p strong {
+            color: var(--accent);
+        }
+
+        .about-box {
+            background: var(--secondary);
+            border: 1px solid var(--border);
+            padding: 2rem;
+            border-radius: 12px;
+            border-left: 4px solid var(--accent);
+        }
+
+        .about-box h3 {
+            color: var(--accent);
+            margin-bottom: 1rem;
+            font-family: 'Space Mono', monospace;
+        }
+
+        .about-box ul {
+            list-style: none;
+        }
+
+        .about-box li {
+            margin: 0.5rem 0;
+        }
+
+        @media (max-width: 768px) {
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            nav ul {
+                gap: 1rem;
+            }
+
+            section h2 {
+                font-size: 1.8rem;
+            }
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            background: var(--secondary);
+            border-top: 1px solid var(--border);
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-links a {
+            color: var(--text-dim);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+
+        .footer-text {
+            color: var(--text-dim);
+            font-size: 0.9rem;
+        }
+
+        /* ===== SCROLL ANIMATIONS ===== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- NAVBAR -->
+    <nav>
+        <div class="container">
+            <a href="#" class="logo">HIERONYMUS</a>
+            <ul>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="https://github.com/hieronymusvulgate" target="_blank">GitHub</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Building <span class="highlight">intelligent systems</span> that actually work</h1>
+            <p>Full-stack developer. Crypto trader. Systems thinker. Python, ML, and real-time optimization.</p>
+            <a href="#projects" class="cta-button">See My Work</a>
+        </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects" class="projects">
+        <div class="section-subtitle">Featured Work</div>
+        <h2>Projects</h2>
+        
+        <div class="projects-grid">
+            <!-- Botler (Featured) -->
+            <div class="project-card featured reveal">
+                <div class="project-icon">🤵</div>
+                <h3>Botler — Personal AI Butler</h3>
+                <p>A personal optimization system that learns your daily routines using statistical analysis (median-based data analysis). Uses Google Calendar for schedule integration, OneMap.gov.sg for real-time travel time estimation, and intelligent prep time calculations. Tells you exactly when to start preparing and when to leave—built on understanding patterns in your actual behavior.</p>
+                <div class="project-meta">
+                    <span class="tech-tag">Python</span>
+                    <span class="tech-tag">Google Calendar API</span>
+                    <span class="tech-tag">OneMap API</span>
+                    <span class="tech-tag">Data Analysis</span>
+                </div>
+                <div class="project-links">
+                    <a href="https://github.com/hieronymusvulgate/botler" class="project-link" target="_blank">GitHub</a>
+                </div>
+            </div>
+
+            <!-- AI Calendar Suite -->
+            <div class="project-card reveal">
+                <div class="project-icon">📚</div>
+                <h3>AI Calendar Suite</h3>
+                <p>A comprehensive full-stack educational ecosystem integrating task scheduling, AI-powered exam coaching, custom authentication system, and community forums. Built with Flask, SQLAlchemy, and PostgreSQL. Features secure user management (Flask-Bcrypt), real-time exam prep chatbot, collaborative discussion spaces, and intelligent task organization all in one integrated platform.</p>
+                <div class="project-meta">
+                    <span class="tech-tag">Flask</span>
+                    <span class="tech-tag">SQLAlchemy</span>
+                    <span class="tech-tag">PostgreSQL</span>
+                    <span class="tech-tag">Full Stack</span>
+                    <span class="tech-tag">Auth System</span>
+                    <span class="tech-tag">Community</span>
+                </div>
+                <div class="project-links">
+                    <a href="https://github.com/hieronymusvulgate/ai_calendar" class="project-link" target="_blank">GitHub</a>
+                </div>
+            </div>
+
+            <!-- Blackjack Cheatsheet Trainer -->
+            <div class="project-card reveal">
+                <div class="project-icon">🎰</div>
+                <h3>Blackjack Cheatsheet Trainer</h3>
+                <p>An interactive training system that teaches optimal blackjack strategy through hands-on gameplay. Trains users on proper decision-making for different hand combinations against dealer upcards. Uses probability-based strategy optimization to improve win rates and help players learn mathematically optimal plays for every possible blackjack scenario.</p>
+                <div class="project-meta">
+                    <span class="tech-tag">Python</span>
+                    <span class="tech-tag">Game Logic</span>
+                    <span class="tech-tag">Probability</span>
+                    <span class="tech-tag">Interactive Training</span>
+                </div>
+                <div class="project-links">
+                    <a href="https://github.com/hieronymusvulgate/blackjack" class="project-link" target="_blank">GitHub</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills" class="skills">
+        <div class="section-subtitle">Tech Stack</div>
+        <h2>Skills & Technologies</h2>
+        
+        <div class="skills-container">
+            <div class="skill-group reveal">
+                <h3>Backend</h3>
+                <div class="skill-list">
+                    <span class="skill">Python</span>
+                    <span class="skill">Flask</span>
+                    <span class="skill">SQLAlchemy</span>
+                    <span class="skill">PostgreSQL</span>
+                    <span class="skill">REST APIs</span>
+                </div>
+            </div>
+
+            <div class="skill-group reveal">
+                <h3>Data & APIs</h3>
+                <div class="skill-list">
+                    <span class="skill">Data Analysis</span>
+                    <span class="skill">Google Calendar API</span>
+                    <span class="skill">OneMap API</span>
+                    <span class="skill">NumPy</span>
+                </div>
+            </div>
+
+            <div class="skill-group reveal">
+                <h3>Frontend</h3>
+                <div class="skill-list">
+                    <span class="skill">HTML/CSS</span>
+                    <span class="skill">JavaScript</span>
+                    <span class="skill">Bootstrap</span>
+                    <span class="skill">Jinja2</span>
+                </div>
+            </div>
+
+            <div class="skill-group reveal">
+                <h3>Tools & Deployment</h3>
+                <div class="skill-list">
+                    <span class="skill">Git/GitHub</span>
+                    <span class="skill">Gunicorn</span>
+                    <span class="skill">APScheduler</span>
+                    <span class="skill">Flask-Mail</span>
+                </div>
+            </div>
+
+            <div class="skill-group reveal">
+                <h3>Game & Algorithms</h3>
+                <div class="skill-list">
+                    <span class="skill">Game Logic</span>
+                    <span class="skill">Probability Theory</span>
+                    <span class="skill">Algorithm Design</span>
+                    <span class="skill">Strategy Optimization</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about">
+        <div class="section-subtitle">About Me</div>
+        <h2>Who Am I</h2>
+        
+        <div class="about-content">
+            <div class="about-text">
+                <p>I'm a <strong>full-stack developer</strong> obsessed with systems thinking and optimization. I approach problems the way I trade crypto futures—understand the patterns, identify inefficiencies, execute precisely.</p>
+                
+                <p>My projects reflect that philosophy: <strong>Botler</strong> optimizes your time using data analysis. The <strong>AI Calendar Suite</strong> uses automation to handle busy work. Both are built with one principle: <strong>eliminate friction, maximize signal.</strong></p>
+                
+                <p>I believe the best code solves real problems. Every feature I build has to earn its place.</p>
+            </div>
+
+            <div class="about-box">
+                <h3>What Drives Me</h3>
+                <ul>
+                    <li>✓ Building systems that learn from data</li>
+                    <li>✓ Solving real problems with code</li>
+                    <li>✓ Understanding patterns (markets, behavior, systems)</li>
+                    <li>✓ Shipping projects that actually work</li>
+                    <li>✓ Full-stack from API to UI</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="https://github.com/hieronymusvulgate" target="_blank">GitHub</a>
+                <a href="#projects">Projects</a>
+                <a href="#about">About</a>
+            </div>
+            <p class="footer-text">© 2024 Hieronymus. Built with purpose and precision.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scroll and reveal animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Smooth navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
